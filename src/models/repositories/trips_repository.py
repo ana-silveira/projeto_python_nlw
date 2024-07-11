@@ -13,7 +13,8 @@ class TripsRepository:
                     (id, destination, start_date, end_date, owner_name, owner_email)
                 VALUES
                     (?,?,?,?,?,?)
-            ''', (
+            ''', 
+            (
                 trips_infos["id"],
                 trips_infos["destination"],
                 trips_infos["start_date"],
@@ -23,3 +24,12 @@ class TripsRepository:
             )
         )
         self.__conn.commit()
+    
+    def find_trip_by_id(self, trip_id: str):
+        cursor = self.__conn.cursor()
+        cursor.execute(
+            '''SELECT * FROM trips WHERE id = ? ''', (trip_id, )
+        )
+
+        trip = cursor.fetchone()
+        return trip
